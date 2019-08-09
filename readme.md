@@ -6,11 +6,11 @@ mvn install:install-file     -Dfile=D:\hive-jdbc-1.1.0-cdh5.12.1-standalone.jar 
 
 
 
-## sqooop 抽取hive到 mysql
-* 检查是否连通
- sqoop list-databases -connect jdbc:mysql://localhost:3306/test?useSSL=false -username test -password test
+## sqoop 抽取hive到 mysql
+* 检查是否连通 \
+sqoop list-databases -connect jdbc:mysql://localhost:3306/test?useSSL=false -username test -password test
  
- * 导出 
+ * 导出 \
  sqoop export \
  -connect jdbc:mysql://localhost:3306/test?useSSL=false -username test -password test --table test001 \
 --hcatalog-database test \
