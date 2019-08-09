@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.springframework.org/schema/mvc">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Demo</title>
+
+    <link th:href="@{/css/bootstrap.css}" rel="stylesheet" href="../static/css/bootstrap.css"/>
+
+    <script type="text/javascript" src="../static/js/jquery-1.11.3.min.js"
+            th:src="@{/js/jquery-1.11.3.min.js}"></script>
+    <script type="text/javascript"
+            src="../static/js/bootstrap.js"
+            th:src="@{/js/bootstrap.js}"></script>
+    <script>
+
+        $(function () {
+            var nums = 0; // 查询次数
+
+            $("#query").click(function () {
+                var startM = $('#validationCustom01').val();
+                var endM = $('#validationCustom02').val();
+                var val = []
+                $(':checkbox:checked').each(function (i) {
+                    val[i] = $(this).val();
+                });
+                nums += 1;
+                $.get("/list", {dataType: val[0], startMonth: startM, endMonth: endM},
+                    function (data) {
+                        $('#t001').empty();
+                        $.each(data.list, function (i, item) {
+                            var index = i + 1;
+                            $('#t001').append('<tr><th scope="row">' + index + '</th><td>' + item.name + '</td><td>' + item.age + '</td><td>' + item.grade + '</td></tr>');
+                        });
+                        $('#timeDiv').show().text('查询次数：' + nums + '，查询用时：' + data.time + ' 毫秒');
+                    });
+            });
+
+            $(':checkbox').click(function () {
+                $(':checkbox').not(this).prop('checked', false);
+            });
+        });
+
+
+    </script>
+</head>
+<body>
+
+<div class="container">
+
+    <div class="starter-template">
+        <h1 align="center">Web应用简单演示</h1>
+        <h1></h1>
+
+        <form id='target'>
+
+            <div class="form-group" id="inlineFormCustomSelect">
+                <div class="col-md-2 col-md-offset-0">
+                    <label class="mr-sm-2" for="inlineFormCustomSelect">数据库</label>
+                </div>
+                <div class="col-md-3 col-md-offset-0">
+                    <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="mySql"/>
+                    <label class="form-check-label" for="inlineCheckbox1">mySql</label>
+                </div>
+                <div class="col-md-3 col-md-offset-0">
+                    <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="Hive"/>
+                    <label class="form-check-label" for="inlineCheckbox2">Hive</label>
+                </div>
+                <div class="col-md-3 col-md-offset-0">
+                    <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="Impala"/>
+                    <label class="form-check-label" for="inlineCheckbox3">Impala</label>
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <label for="validationCustom01">起始时间</label>
+                <input type="text" class="form-control" id="validationCustom01" placeholder="First name" value="2018-05"
+                       required=""/>
+            </div>
+            <div class="col-md-4 mb-3">
+                <label for="validationCustom02">终止时间</label>
+                <input type="text" class="form-control" id="validationCustom02" placeholder="Last name" value="2019-20"
+                       required=""/>
+            </div>
+            <div class="col-md-1 mb-3">
+                <label for="query"></label>
+                <button type="button" id="query" class="btn btn-primary">查询</button>
+            </div>
+        </form>
+
+
+        <table class="table" id='myTable'>
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">保单号</th>
+                <th scope="col">生效日</th>
+                <th scope="col">ID差错</th>
+            </tr>
+            </thead>
+            <tbody id="t001">
+
+            </tbody>
+        </table>
+
+    </div>
+    <div class="alert alert-success" role="alert" hidden="hidden" id="timeDiv"></div>
+
+</div>
+
+
+</body>
+
+</html>
