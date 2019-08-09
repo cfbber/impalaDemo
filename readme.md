@@ -1,3 +1,7 @@
+
+![alt text](https://github.com/cfbber/impalaDemo/blob/master/src/main/resources/static/img/1565334688(1).jpg)
+
+
 ## 采用技术  
 前端：bootstrap+ajax+jQuery  
 后端：Spring boot + Spring mvc  
